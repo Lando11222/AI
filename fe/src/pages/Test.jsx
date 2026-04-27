@@ -1,7 +1,5 @@
 import { useState } from "react";
 import {
-  FaCheckCircle,
-  FaTimesCircle,
   FaArrowLeft,
   FaSignOutAlt,
   FaCode,
@@ -17,21 +15,64 @@ const questions = [
   "Saya menikmati belajar hal baru di bidang IT",
 ];
 
+const options = [
+  {
+    label: "Sangat Tidak Setuju",
+    value: 1,
+    active: "bg-red-500 text-white",
+    hover: "hover:bg-red-50 hover:border-red-300",
+  },
+  {
+    label: "Tidak Setuju",
+    value: 2,
+    active: "bg-orange-500 text-white",
+    hover: "hover:bg-red-100 hover:border-red-300",
+  },
+  {
+    label: "Netral",
+    value: 3,
+    active: "bg-gray-500 text-white",
+    hover: "hover:bg-gray-50 hover:border-gray-300",
+  },
+  {
+    label: "Setuju",
+    value: 4,
+    active: "bg-blue-500 text-white",
+    hover: "hover:bg-blue-50 hover:border-blue-300",
+  },
+  {
+    label: "Sangat Setuju",
+    value: 5,
+    active: "bg-green-500 text-white",
+    hover: "hover:bg-green-50 hover:border-green-300",
+  },
+];
+
 function Test() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [showExitModal, setShowExitModal] = useState(false);
   const [showFinishModal, setShowFinishModal] = useState(false);
+  const [answers, setAnswers] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   const total = questions.length;
   const progress = ((current + 1) / total) * 100;
 
-  const handleAnswer = () => {
-    if (current < questions.length - 1) {
-      setCurrent(current + 1);
-    } else {
-      setShowFinishModal(true); // 🔥 tampilkan modal selesai
-    }
+  const handleAnswer = (value) => {
+    const newAnswers = [...answers];
+    newAnswers[current] = value;
+    setAnswers(newAnswers);
+    setSelected(value);
+
+    setTimeout(() => {
+      setSelected(null);
+      if (current < questions.length - 1) {
+        setCurrent(current + 1);
+      } else {
+        setShowFinishModal(true);
+      }
+    }, 300);
   };
 
   return (
@@ -92,29 +133,29 @@ function Test() {
             </div>
           </div>
 
-          <p className="text-gray-400 text-sm mb-2">
-            Pertanyaan {current + 1}
-          </p>
+          <p className="text-gray-400 text-sm mb-2">Pertanyaan {current + 1}</p>
 
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-10 leading-snug">
             {questions[current]}
           </h2>
 
-          {/* BUTTONS */}
-          <div className="flex flex-col md:flex-row justify-center gap-4">
-            <button
-              onClick={handleAnswer}
-              className="flex items-center justify-center gap-3 bg-green-500 text-white px-10 py-3 rounded-xl hover:bg-green-600 transition shadow-md"
-            >
-              <FaCheckCircle /> Ya, Setuju
-            </button>
-
-            <button
-              onClick={handleAnswer}
-              className="flex items-center justify-center gap-3 bg-red-500 text-white px-10 py-3 rounded-xl hover:bg-red-600 transition shadow-md"
-            >
-              <FaTimesCircle /> Tidak Setuju
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+            {options.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleAnswer(option.value)}
+                className={`
+        py-2 px-1 rounded-lg text-sm font-medium border transition-all duration-300 cursor-pointer
+        ${
+          selected === option.value
+            ? `${option.active} scale-105 shadow-lg`
+            : `bg-white text-gray-600 ${option.hover}`
+        }
+      `}
+              >
+                {option.label}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -173,9 +214,7 @@ function Modal({ title, desc, onClose, onConfirm, confirmText, color }) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-6 w-[350px] text-center shadow-lg">
-        <h2 className="text-lg font-semibold text-gray-700 mb-2">
-          {title}
-        </h2>
+        <h2 className="text-lg font-semibold text-gray-700 mb-2">{title}</h2>
 
         <p className="text-sm text-gray-500 mb-6">{desc}</p>
 
