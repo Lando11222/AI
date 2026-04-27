@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  FaArrowLeft,
-  FaSignOutAlt,
-  FaCode,
-  FaInfoCircle,
-  FaTrophy,
-} from "react-icons/fa";
+import { FaSignOutAlt, FaCode, FaInfoCircle, FaTrophy } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const questions = [
@@ -20,13 +14,13 @@ const options = [
     label: "Sangat Tidak Setuju",
     value: 1,
     active: "bg-red-500 text-white",
-    hover: "hover:bg-red-50 hover:border-red-300",
+    hover: "hover:bg-red-300 hover:border-red-300",
   },
   {
     label: "Tidak Setuju",
     value: 2,
     active: "bg-orange-500 text-white",
-    hover: "hover:bg-red-100 hover:border-red-300",
+    hover: "hover:bg-yellow-100 hover:border-yellow-300",
   },
   {
     label: "Netral",
@@ -78,17 +72,9 @@ function Test() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50">
       {/* NAVBAR */}
-      <div className="w-full bg-white/80 backdrop-blur border-b shadow-sm">
+      <div className="w-full bg-white/80 backdrop-blur shadow-sm">
         <div className="max-w-5xl mx-auto flex items-center justify-between py-3 px-4">
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-gray-500 hover:text-black transition"
-          >
-            <FaArrowLeft />
-            Kembali
-          </button>
-
-          <h1 className="font-semibold text-gray-700">Tes Minat</h1>
+          <h1 className="font-semibold text-3xl text-gray-700">Tes Minat</h1>
 
           <button
             onClick={() => setShowExitModal(true)}
