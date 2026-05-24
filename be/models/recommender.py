@@ -7,7 +7,11 @@ def get_recommendation(user_input):
 
     prodi_names = dataset['prodi']
 
-    features = dataset.drop(columns=['prodi'])
+    # Menghapus kolom prodi dan mengganti NaN menjadi 0
+    features = dataset.drop(columns=['prodi']).fillna(0)
+
+    # Mengganti nilai kosong pada input user
+    user_input = [0 if x is None else x for x in user_input]
 
     similarity = cosine_similarity([user_input], features)
 
@@ -23,4 +27,4 @@ def get_recommendation(user_input):
 
     results = sorted(results, key=lambda x: x['score'], reverse=True)
 
-    return results[:3]
+    return results

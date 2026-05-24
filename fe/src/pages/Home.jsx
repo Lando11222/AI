@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 function Home() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <div className="min-h-screen bg-[#f5f7ff]">
@@ -76,17 +77,40 @@ function Home() {
             </label>
 
             <div className="mt-2 flex items-center gap-3">
-              <input
-                type="text"
-                placeholder="Masukkan nama lengkap kamu"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder={
+                    error
+                      ? "Nama lengkap harus diisi"
+                      : "Masukkan nama lengkap kamu"
+                  }
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setError("");
+                  }}
+                  className={`w-full px-3 py-2 rounded-lg border 
+    ${error ? "border-red-500 placeholder-red-400" : "border-gray-300"}
+    focus:outline-none focus:ring-1 focus:ring-blue-500`}
+                />
+              </div>
 
               <button
-                disabled={!name}
-                onClick={() => navigate("/test", { state: { name } })}
+                onClick={() => {
+                  if (!name.trim()) {
+                    setError("Nama lengkap harus diisi");
+                    return;
+                  }
+
+                  setError("");
+
+                  localStorage.setItem("userName", name);
+
+                  navigate("/test", {
+                    state: { name },
+                  });
+                }}
                 className="bg-blue-800 hover:bg-blue-900 text-white px-3 py-2 rounded-lg font-medium transition cursor-pointer"
               >
                 Mulai Tes →
