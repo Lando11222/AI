@@ -94,15 +94,25 @@ function Test() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-blue-100 relative overflow-hidden">
+      {/* BACKGROUND EFFECT */}
+      <div className="absolute top-0 left-0 w-72 h-72 bg-indigo-300/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl" />
+
       {/* NAVBAR */}
-      <header className="bg-white/80 backdrop-blur shadow-sm">
-        <div className="max-w-5xl mx-auto flex items-center justify-between py-4 px-4">
-          <h1 className="text-3xl font-bold text-gray-800">Tes Minat</h1>
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-white/40 shadow-sm">
+        <div className="max-w-5xl mx-auto flex items-center justify-between py-4 px-5">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
+              Tes Minat
+            </h1>
+
+            <p className="text-sm text-gray-500 mt-1">Halo, {userName} 👋</p>
+          </div>
 
           <button
             onClick={() => setShowExitModal(true)}
-            className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-500 hover:bg-red-50 hover:text-red-500 transition-all duration-300"
           >
             <FaSignOutAlt />
             Keluar
@@ -111,70 +121,80 @@ function Test() {
       </header>
 
       {/* CONTENT */}
-      <main className="px-6 py-10">
-        {/* PROGRESS */}
+      <main className="px-5 py-10 relative z-10">
+        {/* LOADING */}
         {loading && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="bg-white px-8 py-6 rounded-2xl shadow-xl">
-              <p className="text-lg font-semibold text-indigo-600 animate-pulse">
-                Sedang memproses rekomendasi...
-              </p>
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white px-10 py-7 rounded-3xl shadow-2xl border border-white/50">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+
+                <p className="text-lg font-semibold text-indigo-600">
+                  Sedang memproses rekomendasi...
+                </p>
+              </div>
             </div>
           </div>
         )}
-        <section className="max-w-3xl mx-auto mb-10">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>
+
+        {/* PROGRESS */}
+        <section className="max-w-3xl mx-auto mb-8">
+          <div className="flex justify-between text-sm text-gray-600 mb-3">
+            <span className="font-medium">
               Pertanyaan {current + 1} dari {total}
             </span>
 
-            <span className="font-semibold text-indigo-600">
+            <span className="font-bold text-indigo-600">
               {Math.round(progress)}%
             </span>
           </div>
 
-          <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div className="w-full h-4 bg-white rounded-full overflow-hidden shadow-inner border border-gray-100">
             <div
-              className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-500"
+              className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 transition-all duration-700"
               style={{ width: `${progress}%` }}
             />
           </div>
         </section>
 
         {/* QUESTION CARD */}
-        <section className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl border border-gray-100 p-10 text-center relative overflow-hidden">
-          {/* BACKGROUND BLUR */}
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-100 rounded-full blur-3xl opacity-40" />
+        <section className="max-w-3xl mx-auto bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/60 p-10 md:p-12 text-center relative overflow-hidden">
+          {/* DECORATION */}
+          <div className="absolute -top-20 -right-20 w-56 h-56 bg-indigo-200/40 rounded-full blur-3xl" />
 
           {/* ICON */}
-          <div className="flex justify-center mb-6">
-            <div className="bg-indigo-100 text-indigo-600 p-5 rounded-2xl text-4xl shadow-inner">
+          <div className="flex justify-center mb-8">
+            <div className="bg-gradient-to-br from-indigo-500 to-blue-500 text-white p-6 rounded-3xl text-4xl shadow-xl">
               {CurrentIcon && <CurrentIcon />}
             </div>
           </div>
 
           {/* QUESTION NUMBER */}
-          <p className="text-sm text-gray-400 mb-2">Pertanyaan {current + 1}</p>
+          <p className="text-sm font-medium tracking-wide uppercase text-indigo-500 mb-3">
+            Pertanyaan {current + 1}
+          </p>
 
           {/* QUESTION */}
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-10 leading-snug">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed mb-10">
             {currentQuestion?.question}
           </h2>
 
           {/* OPTIONS */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {options.map((option) => (
               <button
                 key={option.value}
                 onClick={() => handleAnswer(option.value)}
                 className={`
-                  py-3 px-2 rounded-xl border text-sm font-medium transition-all duration-300
-                  ${
-                    selected === option.value
-                      ? `${option.active} scale-105 shadow-lg`
-                      : `bg-white text-gray-600 ${option.hover}`
-                  }
-                `}
+                relative overflow-hidden
+                py-4 px-3 rounded-xl border text-sm font-semibold
+                transition-all duration-300 transform
+                ${
+                  selected === option.value
+                    ? `${option.active} scale-105 shadow-xl border-transparent`
+                    : `bg-white text-gray-700 border-gray-300 hover:-translate-y-1 hover:shadow-lg ${option.hover}`
+                }
+              `}
               >
                 {option.label}
               </button>
@@ -184,39 +204,40 @@ function Test() {
 
         {/* INFO */}
         <section className="max-w-3xl mx-auto mt-8">
-          <div className="flex items-center gap-3 bg-indigo-50 text-indigo-600 text-sm py-3 px-4 rounded-xl">
-            <FaInfoCircle />
+          <div className="flex items-center gap-3 bg-white/70 backdrop-blur-lg border border-indigo-100 text-indigo-600 text-sm py-4 px-5 rounded-2xl shadow-sm">
+            <div className="bg-indigo-100 p-2 rounded-xl">
+              <FaInfoCircle />
+            </div>
 
-            <span>
+            <span className="font-medium">
               Jawabanmu akan menentukan hasil rekomendasi program studi terbaik
             </span>
           </div>
         </section>
+        {/* EXIT MODAL */}
+        {showExitModal && (
+          <Modal
+            title="Keluar dari Tes?"
+            desc="Jawaban yang sudah diisi akan hilang."
+            confirmText="Ya, Keluar"
+            confirmColor="bg-red-500 hover:bg-red-600"
+            onClose={() => setShowExitModal(false)}
+            onConfirm={() => navigate("/")}
+          />
+        )}
+
+        {/* FINISH MODAL */}
+        {showFinishModal && (
+          <Modal
+            icon={<FaTrophy className="text-yellow-500 text-4xl" />}
+            title="Tes Selesai 🎉"
+            desc="Kamu sudah menyelesaikan semua pertanyaan."
+            confirmText="Lihat Hasil"
+            confirmColor="bg-indigo-600 hover:bg-indigo-700"
+            onConfirm={() => navigate("/result")}
+          />
+        )}
       </main>
-
-      {/* EXIT MODAL */}
-      {showExitModal && (
-        <Modal
-          title="Keluar dari Tes?"
-          desc="Jawaban yang sudah diisi akan hilang."
-          confirmText="Ya, Keluar"
-          confirmColor="bg-red-500 hover:bg-red-600"
-          onClose={() => setShowExitModal(false)}
-          onConfirm={() => navigate("/")}
-        />
-      )}
-
-      {/* FINISH MODAL */}
-      {showFinishModal && (
-        <Modal
-          icon={<FaTrophy className="text-yellow-500 text-4xl" />}
-          title="Tes Selesai 🎉"
-          desc="Kamu sudah menyelesaikan semua pertanyaan."
-          confirmText="Lihat Hasil"
-          confirmColor="bg-indigo-600 hover:bg-indigo-700"
-          onConfirm={() => navigate("/result")}
-        />
-      )}
     </div>
   );
 }
@@ -231,19 +252,23 @@ function Modal({
   onConfirm,
 }) {
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-8 w-[400px] text-center shadow-2xl">
-        {icon && <div className="flex justify-center mb-4">{icon}</div>}
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white rounded-xl p-8 w-[400px] text-center shadow-2xl border border-white/50">
+        {icon && (
+          <div className="flex justify-center mb-5">
+            <div className="bg-yellow-100 p-4 rounded-2xl">{icon}</div>
+          </div>
+        )}
 
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{title}</h2>
 
-        <p className="text-gray-500 mb-6">{desc}</p>
+        <p className="text-gray-500 mb-7 leading-relaxed">{desc}</p>
 
         <div className="flex justify-center gap-4">
           {onClose && (
             <button
               onClick={onClose}
-              className="px-6 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+              className="px-7 py-3 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
             >
               Batal
             </button>
@@ -251,7 +276,7 @@ function Modal({
 
           <button
             onClick={onConfirm}
-            className={`px-4 py-2 rounded-lg text-white transition ${confirmColor}`}
+            className={`px-6 py-3 rounded-lg text-white font-semibold shadow-lg transition-all duration-300 hover:scale-105 ${confirmColor}`}
           >
             {confirmText}
           </button>

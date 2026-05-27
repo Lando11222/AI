@@ -120,11 +120,23 @@ function Home() {
         </div>
 
         {/* RIGHT */}
-        <div className="flex justify-center">
+        {/* RIGHT */}
+        <div className="relative flex justify-center items-center">
+          {/* BACKGROUND GLOW */}
+          <div className="absolute w-[350px] h-[350px] bg-blue-300/30 rounded-full blur-3xl"></div>
+
+          {/* IMAGE */}
           <img
             src={aiImage}
             alt="Ilustrasi"
-            className="w-[420px] md:w-[480px] drop-shadow-xl"
+            className="
+      relative z-10
+      w-[420px] md:w-[500px]
+      object-contain
+      mix-blend-multiply
+      drop-shadow-2xl
+      animate-float
+    "
           />
         </div>
       </div>
