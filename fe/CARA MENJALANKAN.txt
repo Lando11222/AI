@@ -1,0 +1,17 @@
+CARA MENJALANKAN APLIKASI
+
+1. Jalankan Frontend
+- Buka folder fe menggunakan Visual Studio Code
+- Buka terminal
+- Jalankan perintah:
+
+npm run dev
+
+2. Jalankan Backend
+- Buka folder be
+- Buka terminal baru
+- Jalankan perintah:
+
+python app.py
+
+3. Pastikan frontend dan backend berjalan bersamaan agar aplikasi dapat digunakan dengan baik.
